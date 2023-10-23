@@ -18,7 +18,7 @@ def user_name(sufr,text,x,y,size):
   text_rect = text_surfase.get_rect()
   text_rect.midtop = (x,y)
   surf.blit(text_surfase, text_rect)
-while 1:
+while main_loop:
   for i in pg.event.get():
     if i.type == pg.QUIT:
       exit()
@@ -26,9 +26,25 @@ while 1:
       if i.key == pg.K_BACKSPACE:
         name = name[: -1]
       elif i.key == pg.K_RETURN:
-          print(name)
+          main_loop = False
       else:
         name += i.unicode
-  win.fill((0,0,0))
+  win.fill((255,255,255))
   draw_text(win, 'vvedite imya', W//2,H//2)
+  draw_text(win,name, W//2, H//2 * 20)
   pg.display.update()
+
+while 1:
+  for i in pg.event.get():
+    if i.type == pg.QUIT:
+      exit()
+  win y in range(0,H, 10)
+    for x in range(0, W, 30):
+      pg.draw.line(win, (0,0,0), (0, y), (W, y))
+      pg.draw.line(win, (0,0,0), (x, 0), (x, H))
+
+    pg.display.update()
+
+
+
+
