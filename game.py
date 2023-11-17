@@ -5,21 +5,21 @@ from sql_bd import DateBaseSQL
 
 pg.init()
 SQL = DateBaseSQL() # новое
-win = pg.display.set_mode((600,600))
+win = pg.display.set_mode((600,600)) # размер открывающегося окна
 FONT_SIZE = 18
-font_name = pg.font.match_font('arial')
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-DARK_GREY = (50,50,50
+font_name = pg.font.match_font('arial') # поиск определённого шрифта
+WHITE = (255, 255, 255) # белый цвет
+BLACK = (0, 0, 0) # чёрный цвет
+DARK_GREY = (50,50,50) # тёмно серый
 WIDTH, HEIGHT = 600,600
-dog_surf = pg.image.load('fon.png')
+dog_surf = pg.image.load('fon.jpg')
 dog_rect = dog_surf.get_rect(bottomright=(600, 600))
 
 
 class Apple(pg.sprite.Sprite):
     def __init__(self):
-        pg.sprite.Sprite.__init__(self)
-        self.image = pg.image.load('apple.png')
+        pg.sprite.Sprite.__init__(self) # процесс инициализации
+        self.image = pg.image.load('apple.jpg')
         self.rect = self.image.get_rect()
         self.rect.x = random.randrange(0,570)
         self.rect.y = random.randrange(0,570)
@@ -29,7 +29,7 @@ class Apple(pg.sprite.Sprite):
 
 class Player(pg.sprite.Sprite):
     def __init__(self,x,y):
-        pg.sprite.Sprite.__init__(self)
+        pg.sprite.Sprite.__init__(self) # тоже самое что и на 21 строке
         self.x = x
         self.y = y
         self.speed_x = 1
@@ -40,11 +40,11 @@ class Player(pg.sprite.Sprite):
         self.rect.bottom = HEIGHT - 100
     def update(self):
         if collision:
-            self.rect.x += self.speed_x * 40
-            self.rect.y += self.speed_y * 40
+            self.rect.x += self.speed_x * 60
+            self.rect.y += self.speed_y * 60
         self.rect.x += self.speed_x
         self.rect.y += self.speed_y
-
+        pg.draw.circle(win,(0,0,0),(self.rect.x+25,self.rect.y+25),1000, 900)
         key = pg.key.get_pressed()
         if key[pg.K_LEFT]:
             if self.speed_x != 1 and self.speed_x != -1:
@@ -75,11 +75,11 @@ class Player(pg.sprite.Sprite):
 
 class Tail(pg.sprite.Sprite):
     def __init__(self,*group):
-        super().__init__(*group)
+        super().__init__(*group) # тоже что и на 32 строке
         self.speed_x = player.speed_x
         self.speed_y = player.speed_y
         self.image = pg.image.load('snake.png')
-        self.rect = self.image.get_rect()
+        self.rect = self.image.get_rect() # позиция объекта
         self.rect.x = player.rect.x
         self.rect.y = player.rect.y
         self.direction_list = []
@@ -150,18 +150,16 @@ while 1:
     win.fill((32,32,32))
     draw_text(win, name, 15 , 15, color=(0,0,0))
     draw_text(win, f'Score:{score}', WIDTH // 2 , 15,color=(0,0,0))
-    all_sprites.update()
-    all_sprites.draw(win)
     apple_sprites.update()
     apple_sprites.draw(win)
+    all_sprites.update()
+    all_sprites.draw(win)
     if score != 0:
         tail_sprites.update()
         tail_sprites.draw(win)
-    if score == 1:
-        pg.draw.circle(Player, )
     collision = pg.sprite.spritecollide(player,apple_sprites, False, pg.sprite.collide_mask)
     end = pg.sprite.spritecollide(player,tail_sprites, False, pg.sprite.collide_mask)
-    if happy_end:
+    if end:
         break
     if collision:
         score += 1
